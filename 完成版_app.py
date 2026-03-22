@@ -643,6 +643,7 @@ def get_height_weight_coeff(position: str, height: int, weight: int) -> float:
             coeff *= 1.03
         elif weight <= 60:
             coeff *= 0.98
+
     return coeff
 def get_age_domain_coeff(domain: str, age_stage: str) -> float:
     return AGE_DOMAIN_COEFFICIENTS[age_stage][domain]
@@ -968,9 +969,9 @@ for ability in ability_scores:
 
 st.header("PHV成長分析")
 
-age = st.number_input("年齢", 8, 18)
-height = st.number_input("身長(cm)", 120, 200)
-weight = st.number_input("体重(kg)", 20, 100)
+PHV_age = st.number_input("年齢", 8, 18)
+PHV_height = st.number_input("身長(cm)", 120, 200)
+PHV_weight = st.number_input("体重(kg)", 20, 100)
 sitting_height = st.number_input("座高(cm)", 60, 110)
 
 leg_length = height - sitting_height
@@ -978,9 +979,9 @@ leg_length = height - sitting_height
 PHV = (
     -9.236
     + (0.0002708 * (leg_length * sitting_height))
-    - (0.001663 * (age * leg_length))
-    + (0.007216 * (age * sitting_height))
-    + (0.02292 * (weight / height))
+    - (0.001663 * (PHV_age * leg_length))
+    + (0.007216 * (PHV_age * sitting_height))
+    + (0.02292 * (PHV_weight / PHV_height))
 )
 
 
@@ -1123,7 +1124,6 @@ for day in days:
     i += 2
 
 df = pd.DataFrame(dict([(k,pd.Series(v)) for k,v in schedule.items()]))
-
 
 #########結果出力##########
 
